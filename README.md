@@ -6,105 +6,116 @@ The objective was to address **early user drop-off within the first two weeks** 
 
 This project includes:
 - **Code** (Python scripts with a Makefile workflow)
-- **README.md** (setup, run, testing, coverage, guidelines)
+- **README.md** (setup, run, testing, coverage, guidelines, endpoints)
 - **docs/** (screenshots and PDF summary)
 - **PDF summary** covering problem exploration, solution proposal, prototype implementation, and trade-offs
 
 ---
 
-## Problem Exploration (Guideline)
-- **Core problem**: low retention during onboarding.  
-- **Assumptions**: users churn when activities feel generic, reminders are mistimed, motivation is missing.  
-- **Signals**: login frequency, time-of-day usage, content preference, onboarding answers, early conversions.
+## Quick Start Order
+
+1. `make setup`
+2. `make test` (to confirm environment and generate coverage)
+3. `make run`
+4. Open new terminal → `make eval`
 
 ---
 
-## Solution Proposal (Guideline)
-- **Main approach**: Learning-to-rank recommender using XGBoost.  
-- **How it fits**: onboarding-tailored starter pack → personalized updates in first 2 weeks → context-aware notifications.  
-- **Alternatives considered**: clustering cohorts, motivational LLM prompts, popularity-based fallbacks.
+## Makefile Commands and Examples
 
----
+**`make setup` (create environment):**  
+![make setup](docs/make_setup.png)
 
-## Project Structure
-```
-.
-├── Makefile
-├── requirements.txt
-├── scripts/
-│   ├── train_ltr.py       # Training pipeline
-│   ├── evaluate.py        # Offline evaluation
-│   ├── run_api.py         # API runner
-│   ├── ltr.py             # XGBoost helper functions
-│   ├── schemas.py         # Pydantic schemas
-│   └── generate_data.py   # Dummy data generation
-├── src/
-│   ├── features/          # Feature engineering modules
-│   ├── models/            # Bandit, recommender, LTR model
-│   └── service/           # API & schemas
-├── tests/                 # Unit tests
-├── data/                  # Dummy data
-├── models/                # Saved artifacts
-└── docs/
-    ├── Humanoo_Case_Study_Summary.pdf
-    ├── coverage_console.png
-    └── coverage_html.png
-```
+**`make test` (unit tests with coverage):**  
+![make test console](docs/coverage_console.png)  
+![make test html](docs/coverage_html.png)
 
----
+**`make run` (start API service):**  
+![make run](docs/make_run.png)
 
-## How to Run (Makefile-driven)
+**`make eval` (offline evaluation):**  
+![make eval](docs/make_eval.png)
 
-### 1. Setup Environment
-```bash
-make setup
-```
-
-### 2. Run Tests with Coverage
-```bash
-make test
-```
-- Generates a coverage report (HTML in `htmlcov/index.html`).  
-- Screenshots of the 92% coverage are stored in `docs/`.  
-- I wrote **comprehensive test cases**, covering edge cases and ensuring correctness of both training and API.
-
-### 3. Start the Application
-```bash
-make run
-```
-- Launches FastAPI backend at `http://localhost:8000`  
-- Interact with API or UI
-
-### 4. Evaluate Offline
-Open a **new terminal** and run:
-```bash
-make eval
-```
-
-### 5. Optional Commands
-- `make lint` – code linting  
-- `make format` – auto-format source code  
+**Optional:**  
+- `make lint` – lint codebase  
+- `make format` – auto-format sources  
 - `make clean` – remove build artifacts  
 
 ---
 
-## Example Request
+## API Endpoints
+
+### 1. Helper Endpoint
 ```bash
-curl -X POST "http://localhost:8000/recommend"      -H "Content-Type: application/json"      -d '{"user_id": 123, "k": 5}'
+curl -X 'GET'   'http://127.0.0.1:8000/helper'   -H 'accept: application/json'
 ```
+![helper call](docs/helper_call.png)  
+![helper result](docs/helper_result.png)
 
 ---
 
-## Trade-offs & Risks (Guideline)
+### 2. Recommendations Endpoint
+```bash
+curl -X 'POST'   'http://127.0.0.1:8000/recommendations'   -H 'accept: application/json'   -H 'Content-Type: application/json'   -d '{
+  "context": {
+    "day_of_week": 6,
+    "hour_bucket": "morning"
+  },
+  "top_k": 5,
+  "user": {
+    "age": 29,
+    "baseline_activity_min_per_day": 12,
+    "chronotype": "morning",
+    "gender": "female",
+    "language": "en",
+    "premium": true,
+    "primary_goal": "weight_loss",
+    "push_opt_in": true,
+    "user_id": "u0001",
+    "work_pattern": "9-5"
+  }
+}'
+```
+![recommend call](docs/recommend_call.png)  
+![recommend result](docs/recommend_result.png)
+
+---
+
+### 3. Feedback Endpoint
+```bash
+curl -X 'POST'   'http://127.0.0.1:8000/feedback'   -H 'accept: application/json'   -H 'Content-Type: application/json'   -d '{
+  "arm": "push_morning",
+  "content_id": "c0002",
+  "day_of_week": 6,
+  "hour_bucket": "morning",
+  "reward": 1,
+  "user_id": "u0001"
+}'
+```
+![feedback call](docs/feedback_call.png)  
+![feedback result](docs/feedback_result.png)
+
+---
+
+### 4. Metrics Endpoint
+```bash
+curl -X 'GET'   'http://127.0.0.1:8000/metrics'   -H 'accept: application/json'
+```
+![metrics call](docs/metrics_call.png)  
+![metrics result](docs/metrics_result.png)
+
+---
+
+## Trade-offs & Risks
 - Cold start – mitigated with onboarding defaults and popularity priors  
 - Explainability – SHAP values needed for interpretation  
 - Fairness/diversity – prevent skew toward one content type  
 - Latency – addressed with caching and feature pre-compute  
-- Scalability – production would need distributed feature pipelines  
+- Scalability – production would need distributed pipelines  
 
 ---
 
-## Next Steps (Guideline)
+## Next Steps
 With more time I would:  
 - Add embeddings for users/items to improve retrieval  
 - Build an A/B testing harness for online evaluation  
@@ -115,8 +126,8 @@ With more time I would:
 
 ## Deliverables
 - **README.md** – this file  
-- **docs/Humanoo_Case_Study_Summary.pdf** – structured reflection (problem, solution, prototype, trade-offs)  
-- **docs/** – screenshots of 92% test coverage  
+- **docs/Humanoo_Case_Study_Summary.pdf** – structured reflection  
+- **docs/** – screenshots (setup, run, eval, endpoints, coverage)  
 - **Codebase** – Python scripts with recommender prototype  
 
 ---
