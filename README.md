@@ -48,9 +48,6 @@ This project includes:
 ```bash
 curl -X 'GET'   'http://127.0.0.1:8000/helper'   -H 'accept: application/json'
 ```
-![helper call](docs/helper_call.png)  
-![helper result](docs/helper_result.png)
-
 ---
 
 ### 2. Recommendations Endpoint
@@ -75,9 +72,6 @@ curl -X 'POST'   'http://127.0.0.1:8000/recommendations'   -H 'accept: applicati
   }
 }'
 ```
-![recommend call](docs/recommend_call.png)  
-![recommend result](docs/recommend_result.png)
-
 ---
 
 ### 3. Feedback Endpoint
@@ -91,8 +85,6 @@ curl -X 'POST'   'http://127.0.0.1:8000/feedback'   -H 'accept: application/json
   "user_id": "u0001"
 }'
 ```
-![feedback call](docs/feedback_call.png)  
-![feedback result](docs/feedback_result.png)
 
 ---
 
@@ -100,8 +92,6 @@ curl -X 'POST'   'http://127.0.0.1:8000/feedback'   -H 'accept: application/json
 ```bash
 curl -X 'GET'   'http://127.0.0.1:8000/metrics'   -H 'accept: application/json'
 ```
-![metrics call](docs/metrics_call.png)  
-![metrics result](docs/metrics_result.png)
 
 ---
 
