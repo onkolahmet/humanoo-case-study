@@ -24,7 +24,6 @@ This project includes:
 ## Makefile Commands and Examples
 
 **`make setup` (create environment):**  
-![make setup](docs/make_setup.png)
 
 **`make test` (unit tests with coverage):**  
 ![make test console](docs/coverage_console.png)  
