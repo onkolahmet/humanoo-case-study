@@ -63,25 +63,25 @@ data: check-venv
 	$(RUNPY) scripts/generate_data.py
 	@echo "$(GREEN)✓ Data ready: ./data/users.csv, ./data/content_catalog.csv, ./data/interactions.csv$(NC)"
 
-# # Train user personas (encoder + KMeans) → ./artifacts
-# train-personas: check-venv
-# 	@echo "$(GREEN)⧗ Training personas (KMeans) → ./artifacts$(NC)"
-# 	$(RUNPY) scripts/train_personas.py
-# 	@echo "$(GREEN)✓ Personas saved (encoder + kmeans)$(NC)"
+# Train user personas (encoder + KMeans) → ./artifacts
+train-personas: check-venv
+	@echo "$(GREEN)⧗ Training personas (KMeans) → ./artifacts$(NC)"
+	$(RUNPY) scripts/train_personas.py
+	@echo "$(GREEN)✓ Personas saved (encoder + kmeans)$(NC)"
 
 # Train learned scorer (prefers XGBoost, falls back to Logistic Regression)
 train-ltr: check-venv
 	@echo "$(GREEN)⧗ Training learned scorer (XGBoost→LogReg) → ./artifacts/ltr_model.joblib$(NC)"
 	$(RUNPY) scripts/train_ltr.py
 
-# # Train bandit policy from historical interactions (offline init)
-# train-bandit: check-venv
-# 	@echo "$(GREEN)⧗ Training bandit (LinTS) → ./artifacts$(NC)"
-# 	$(RUNPY) scripts/train_bandit.py
-# 	@echo "$(GREEN)✓ Bandit saved$(NC)"
+# Train bandit policy from historical interactions (offline init)
+train-bandit: check-venv
+	@echo "$(GREEN)⧗ Training bandit (LinTS) → ./artifacts$(NC)"
+	$(RUNPY) scripts/train_bandit.py
+	@echo "$(GREEN)✓ Bandit saved$(NC)"
 
 # Full training pipeline in correct order
-train: train-ltr
+train: train-personas train-ltr train-bandit
 	@echo "$(GREEN)✓ Training pipeline finished (personas → learned scorer → bandit)$(NC)"
 
 # ==============================================================================
