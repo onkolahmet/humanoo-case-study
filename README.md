@@ -44,6 +44,8 @@ This project includes:
 
 ## API Endpoints
 
+![api endpoints](docs/api_endpoints.png)
+
 ### 1. Helper Endpoint
 ```bash
 curl -X 'GET'   'http://127.0.0.1:8000/helper'   -H 'accept: application/json'
