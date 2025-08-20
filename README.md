@@ -23,16 +23,20 @@ This project includes:
 
 ## Makefile Commands and Examples
 
-**`make setup` (create environment):**  
+**`make setup` (create environment)**  
 
-**`make test` (unit tests with coverage):**  
+**`make test` (unit tests with coverage):** 
+
 ![make test console](docs/coverage_console.png)  
+
 ![make test html](docs/coverage_html.png)
 
 **`make run` (start API service):**  
+
 ![make run](docs/make_run.png)
 
 **`make eval` (offline evaluation):**  
+
 ![make eval](docs/make_eval.png)
 
 **Optional:**  
