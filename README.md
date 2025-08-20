@@ -8,7 +8,7 @@ This project includes:
 - **Code** (Python scripts with a Makefile workflow)
 - **README.md** (setup, run, testing, coverage, guidelines, endpoints)
 - **docs/** (screenshots and PDF summary)
-- **PDF summary** covering problem exploration, solution proposal, prototype implementation, and trade-offs
+- **[PDF summary](docs/pdf_summary.pdf)** covering problem exploration, solution proposal, prototype implementation, and trade-offs
 
 ---
 
@@ -27,9 +27,9 @@ This project includes:
 
 **`make test` (unit tests with coverage):** 
 
-![make test console](docs/coverage_console.png)  
+![make test console](docs/coverage_console_new.png)  
 
-![make test html](docs/coverage_html.png)
+![make test html](docs/coverage_html_new.png)
 
 **`make run` (start API service):**  
 
@@ -121,7 +121,7 @@ With more time I would:
 
 ## Deliverables
 - **README.md** – this file  
-- **docs/Humanoo_Case_Study_Summary.pdf** – structured reflection  
+- **[PDF summary](docs/pdf_summary.pdf)** – structured reflection  
 - **docs/** – screenshots (setup, run, eval, endpoints, coverage)  
 - **Codebase** – Python scripts with recommender prototype  
 
