@@ -1,7 +1,7 @@
-# Humanoo Case Study – Applied AI Engineer
+# Humanoo Case Study
 
 ## Overview
-This repository contains my submission for the Humanoo Applied AI Engineer case study.  
+This repository contains my submission for the Humanoo case study.  
 The objective was to address **early user drop-off within the first two weeks** by designing and implementing an AI/ML-powered prototype that demonstrates how personalization can improve engagement.
 
 This project includes:
